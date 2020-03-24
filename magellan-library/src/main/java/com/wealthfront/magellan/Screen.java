@@ -3,9 +3,13 @@ package com.wealthfront.magellan;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.IntRange;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
 import android.util.SparseArray;
@@ -228,6 +232,26 @@ public abstract class Screen<V extends ViewGroup & ScreenView> implements BackHa
       getActivity().finish();
     }
     return true;
+  }
+
+  @RequiresApi(api = Build.VERSION_CODES.M)
+  protected int checkSelfPermission(String permission) {
+    return activity.checkSelfPermission(permission);
+  }
+
+  @RequiresApi(api = Build.VERSION_CODES.M)
+  protected boolean shouldShowRequestPermissionRationale(String permission) {
+    return activity.shouldShowRequestPermissionRationale(permission);
+  }
+
+  @RequiresApi(api = Build.VERSION_CODES.M)
+  protected void requestPermissions(String[] permissions, final @IntRange(from = 0) int requestCode) {
+    activity.requestPermissions(permissions, requestCode);
+  }
+
+  @RequiresApi(api = Build.VERSION_CODES.M)
+  protected void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    activity.onRequestPermissionsResult(requestCode, permissions, grantResults);
   }
 
   protected final void setTitle(@StringRes int titleResId) {
